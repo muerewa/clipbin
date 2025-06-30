@@ -18,7 +18,7 @@ func TestCommonHeader(t *testing.T) {
 	next := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("OK"))
 	})
-	commomHeaders(next).ServeHTTP(rr, r)
+	commonHeaders(next).ServeHTTP(rr, r)
 	rs := rr.Result()
 	expectedValue := "default-src 'self'; style-src 'self' fonts.googleapis.com; font-src fonts.gstatic.com"
 	assert.Equal(t, rs.Header.Get("Content-Security-Policy"), expectedValue)
