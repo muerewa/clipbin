@@ -7,6 +7,7 @@ import (
 	"github.com/go-playground/form"
 	"github.com/justinas/nosurf"
 	"net/http"
+	"runtime/debug"
 	"time"
 )
 
@@ -16,6 +17,10 @@ func (app *application) serverError(w http.ResponseWriter, r *http.Request, err 
 		uri    = r.URL.RequestURI()
 	)
 	app.logger.Error(err.Error(), "method", method, "uri", uri)
+	if app.debug {
+		http.Error(w, string(debug.Stack()), http.StatusInternalServerError)
+		return
+	}
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
 
